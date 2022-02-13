@@ -1,23 +1,27 @@
 import React from "react";
 import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
 import styled from "styled-components";
-import colors from "../../../styles/colors";
-import Container from "../../Container";
-import Logo from "../../Logo";
+import colors from "../../styles/colors";
+import Container from "../Container";
+import Logo from "../Logo";
 
-const Footer = () => {
+interface FooterProps {
+  color?: string;
+  textColor?: string;
+}
+const Footer = ({ color, textColor }: FooterProps) => {
   return (
-    <BgFooter>
+    <BgFooter color={color}>
       <ContainerWrapper>
         <LeftContainer>
-          <Logo color={colors.black}>PlinPlant</Logo>
-          <Address>
+          <Logo color={textColor ? textColor : colors.black}>PlinPlant</Logo>
+          <Address textColor={textColor}>
             <span>Jl. Raya Senoparty Jakarta</span>
             <span>Indonesia</span>
           </Address>
         </LeftContainer>
 
-        <ListWrapper>
+        <ListWrapper textColor={textColor}>
           <ul>
             <li>About Us</li>
             <li>References</li>
@@ -29,7 +33,7 @@ const Footer = () => {
           </ul>
         </ListWrapper>
 
-        <RightContainer>
+        <RightContainer textColor={textColor}>
           <h4>Social Media:</h4>
 
           <LogoList>
@@ -51,8 +55,8 @@ const Footer = () => {
 
 export default Footer;
 
-const BgFooter = styled.div`
-  background-color: ${colors.white};
+const BgFooter = styled.div<FooterProps>`
+  background-color: ${({ color }) => (color ? color : colors.white)};
   padding: 50px 0;
 `;
 
@@ -69,16 +73,17 @@ const LeftContainer = styled.div`
   height: 100px;
 `;
 
-const Address = styled.div`
+const Address = styled.div<FooterProps>`
   display: flex;
   flex-direction: column;
 
-  & > text {
+  & > span {
     margin: 3px 0;
+    color: ${({ textColor }) => (textColor ? textColor : `${colors.black}`)};
   }
 `;
 
-const ListWrapper = styled.div`
+const ListWrapper = styled.div<FooterProps>`
   display: flex;
   height: 100px;
   padding: 5px 0;
@@ -93,6 +98,7 @@ const ListWrapper = styled.div`
 
     & > li {
       margin: 5px 0;
+      color: ${({ textColor }) => (textColor ? textColor : `${colors.black}`)};
     }
   }
 `;
@@ -102,14 +108,15 @@ const LogoList = styled.div`
   justify-content: space-between;
 
   & > .logo {
-    background-color: ${colors.white};
+    /* background-color: ${colors.white}; */
   }
 `;
 
-const RightContainer = styled.div`
+const RightContainer = styled.div<FooterProps>`
   padding: 5px 0;
 
   & > h4 {
     margin-bottom: 10px;
+    color: ${({ textColor }) => (textColor ? textColor : `${colors.black}`)};
   }
 `;

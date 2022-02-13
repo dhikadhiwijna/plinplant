@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import CTA from "../component/Landing/CTA/CTA";
-import Footer from "../component/Landing/Footer/Footer";
+import Footer from "../component/Footer/Footer";
 import Header from "../component/Landing/Header/Header";
 import Main from "../component/Landing/Main.tsx/Main";
 import ValueComp from "../component/Landing/Value/ValueComp";

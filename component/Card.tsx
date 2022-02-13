@@ -19,7 +19,6 @@ const Card = ({ name, image, id }: CardProps) => {
 
   const onClickEnsiklopedia = () => {
     router.push(`./ensiklopedia/${id + 1}/${name}`);
-    // console.log("clicked ensli");
   };
 
   return (

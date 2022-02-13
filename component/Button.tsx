@@ -2,24 +2,18 @@ import React from "react";
 import styled from "styled-components";
 import colors from "../styles/colors";
 
-interface ButtonProps {
+interface ButtonProps extends StyledProps {
   children: React.ReactNode;
-  bgColor?: string;
-  color?: string;
-  border?: string;
-  card?: boolean;
-  scrollDown?: boolean;
-  CTA?: boolean;
-  onClick?: () => void;
 }
 
 interface StyledProps {
   bgColor?: string | null;
-  textColor: string;
+  color: string;
   border?: string;
   card?: boolean;
   scrollDown?: boolean;
   CTA?: boolean;
+  Signup?: boolean;
   onClick?: () => void;
 }
 
@@ -28,19 +22,21 @@ const Button = ({
   bgColor,
   border = "none",
   color = colors.black,
-  scrollDown = false,
-  card = false,
-  CTA = false,
+  scrollDown,
+  card,
+  CTA,
+  Signup,
   onClick,
 }: ButtonProps) => {
   return (
     <ButtonComponent
       bgColor={bgColor}
-      textColor={color}
+      color={color}
       border={border}
       scrollDown={scrollDown}
       card={card}
       CTA={CTA}
+      Signup={Signup}
       onClick={onClick}
     >
       {children}
@@ -50,15 +46,27 @@ const Button = ({
 
 export default Button;
 
-const _marginStyle = (card?: boolean, scrollDown?: boolean, CTA?: boolean) => {
+const _marginStyle = (
+  card?: boolean,
+  scrollDown?: boolean,
+  CTA?: boolean,
+  Signup?: boolean
+) => {
   if (card || scrollDown || CTA) return "0px";
+  if (Signup) return "10px 0";
   else return "0 10px";
 };
 
-const _paddingStyle = (card?: boolean, scrollDown?: boolean, CTA?: boolean) => {
+const _paddingStyle = (
+  card?: boolean,
+  scrollDown?: boolean,
+  CTA?: boolean,
+  Signup?: boolean
+) => {
   if (card) return "3px 5px";
   if (scrollDown) return "10px 5px";
   if (CTA) return "15px 30px";
+  if (Signup) return "10px 30px";
   else return "5px 20px";
 };
 
@@ -72,29 +80,39 @@ const _borderRadiusStyle = (
   else return "10px";
 };
 
-const _widthStyle = (card?: boolean, scrollDown?: boolean, CTA?: boolean) => {
+const _widthStyle = (
+  card?: boolean,
+  scrollDown?: boolean,
+  CTA?: boolean,
+  Signup?: boolean
+) => {
   if (scrollDown) return "200px";
+  if (CTA) return "300px";
+  if (Signup) return "100%";
   else return "unset";
 };
 
-const _opacityStyle = (card?: boolean, CTA?: boolean) => {
-  if (card) return "1";
+const _opacityStyle = (card?: boolean, Signup?: boolean) => {
+  if (card || Signup) return "1";
   else return "0.5";
 };
 
 const ButtonComponent = styled.button<StyledProps>`
   background-color: ${({ bgColor }) => (bgColor ? bgColor : "transparent")};
-  color: ${({ textColor }) => textColor};
+  color: ${({ color }) => color};
   border: ${({ border }) =>
     border ? `1px solid ${border}` : colors.transparent};
-  padding: ${({ card, scrollDown, CTA }) =>
-    _paddingStyle(card, scrollDown, CTA)};
-  margin: ${({ card, scrollDown, CTA }) => _marginStyle(card, scrollDown, CTA)};
+  padding: ${({ card, scrollDown, CTA, Signup }) =>
+    _paddingStyle(card, scrollDown, CTA, Signup)};
+  margin: ${({ card, scrollDown, CTA, Signup }) =>
+    _marginStyle(card, scrollDown, CTA, Signup)};
   border-radius: ${({ card, scrollDown, CTA }) =>
     _borderRadiusStyle(card, scrollDown, CTA)};
-  width: ${({ card, scrollDown, CTA }) => _widthStyle(card, scrollDown, CTA)};
-  font-size: ${({ CTA }) => (CTA ? "large" : "inherit")};
-  font-weight: ${({ CTA }) => (CTA ? "bold" : "inherit")};
+  width: ${({ card, scrollDown, CTA, Signup }) =>
+    _widthStyle(card, scrollDown, CTA, Signup)};
+  min-width: ${({ CTA }) => (CTA ? "200px" : "unset")};
+  font-size: ${({ CTA }) => (CTA ? "large" : "unset")};
+  font-weight: ${({ CTA }) => (CTA ? "bold" : "unset")};
   font-family: inherit;
   cursor: pointer;
   background-repeat: no-repeat;
@@ -109,9 +127,10 @@ const ButtonComponent = styled.button<StyledProps>`
   }
 
   &:hover {
-    border: ${({ border }) => (border ? `1px solid ${border}` : "none")};
+    border: ${({ border }) =>
+      border ? `1px solid ${border}` : colors.transparent};
     background-color: ${({ card, CTA }) =>
       card || CTA ? colors.yellow : null};
-    opacity: ${({ card }) => _opacityStyle(card)};
+    opacity: ${({ card, Signup }) => _opacityStyle(card, Signup)};
   }
 `;

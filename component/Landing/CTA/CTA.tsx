@@ -5,8 +5,10 @@ import colors from "../../../styles/colors";
 import Button from "../../Button";
 import Container from "../../Container";
 import { cta } from "../../../assets/illustration";
+import { useRouter } from "next/router";
 
 const CTA = () => {
+  const router = useRouter();
   return (
     <BgContainer>
       <Wrapper>
@@ -23,6 +25,7 @@ const CTA = () => {
               bgColor={colors.green}
               border={colors.transparent}
               color={colors.white}
+              onClick={() => router.push("/register")}
               CTA
             >
               Gabung Sekarang

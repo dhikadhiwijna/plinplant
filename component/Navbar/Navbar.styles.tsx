@@ -8,7 +8,7 @@ export const NavBg = styled.div`
   top: 0;
   left: 0;
   right: 0;
-  z-index: 999;
+  z-index: 5;
   height: 90px;
   display: flex;
   justify-content: center;

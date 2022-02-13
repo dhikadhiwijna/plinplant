@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Router, useRouter } from "next/router";
 import React from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import colors from "../../styles/colors";
@@ -8,6 +9,7 @@ import * as S from "./Navbar.styles";
 // import colors from "../../styles/colors";
 
 const Navbar = () => {
+  const router = useRouter();
   return (
     <S.NavBg>
       <S.NavContainer>
@@ -27,13 +29,18 @@ const Navbar = () => {
               <Link href="/article">Artikel</Link>
             </li>
             <li>
-              <Button border={colors.white} color={colors.white}>
+              <Button
+                border={colors.white}
+                color={colors.white}
+                onClick={() => router.push("/login")}
+              >
                 Masuk
               </Button>
               <Button
                 border={colors.transparent}
                 bgColor={colors.lightGreen}
                 color={colors.white}
+                onClick={() => router.push("/register")}
               >
                 Daftar
               </Button>

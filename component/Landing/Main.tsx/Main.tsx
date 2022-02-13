@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { products } from "../../../data/dummyData";
 import colors from "../../../styles/colors";
 import Container from "../../Container";
-import SliderContainer from "../../Slider/Slider";
+import SliderContainer from "../../Slider";
 
 const Main = () => {
   let filteredData = [...new Set(products.map((x) => x.category))];
