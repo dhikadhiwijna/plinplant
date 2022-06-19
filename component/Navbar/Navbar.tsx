@@ -19,14 +19,19 @@ const Navbar = () => {
           </Logo>
           <S.NavList>
             <li>
-              <Link href="/cart">
+              <Link href="/cart/1">
                 <a className="cart">
-                  <FaShoppingCart fontSize="18" />
+                  <FaShoppingCart
+                    style={{
+                      fill: colors.lightGreenTransparent,
+                      cursor: "pointer",
+                    }}
+                  />
                 </a>
               </Link>
             </li>
             <li>
-              <Link href="/article">Artikel</Link>
+              <Link href="/article/1">Artikel</Link>
             </li>
             <li>
               <Button

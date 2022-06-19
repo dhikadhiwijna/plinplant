@@ -13,7 +13,7 @@ const ValueComp = () => {
         {valueProps.map((data, index) => (
           <ValueWrapper key={index}>
             <Image src={data.img} alt={data.name} />
-            <text>{data.name}</text>
+            <p>{data.name}</p>
           </ValueWrapper>
         ))}
       </Value>

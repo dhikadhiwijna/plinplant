@@ -13,6 +13,7 @@ interface StyledProps {
   card?: boolean;
   scrollDown?: boolean;
   CTA?: boolean;
+  Cart?: boolean;
   Signup?: boolean;
   onClick?: () => void;
 }
@@ -25,6 +26,7 @@ const Button = ({
   scrollDown,
   card,
   CTA,
+  Cart,
   Signup,
   onClick,
 }: ButtonProps) => {
@@ -38,6 +40,7 @@ const Button = ({
       CTA={CTA}
       Signup={Signup}
       onClick={onClick}
+      Cart={Cart}
     >
       {children}
     </ButtonComponent>
@@ -50,10 +53,12 @@ const _marginStyle = (
   card?: boolean,
   scrollDown?: boolean,
   CTA?: boolean,
-  Signup?: boolean
+  Signup?: boolean,
+  Cart?: boolean
 ) => {
   if (card || scrollDown || CTA) return "0px";
   if (Signup) return "10px 0";
+  if (Cart) return "0 5px";
   else return "0 10px";
 };
 
@@ -63,7 +68,7 @@ const _paddingStyle = (
   CTA?: boolean,
   Signup?: boolean
 ) => {
-  if (card) return "3px 5px";
+  if (card) return "3px 9px";
   if (scrollDown) return "10px 5px";
   if (CTA) return "15px 30px";
   if (Signup) return "10px 30px";
@@ -84,11 +89,12 @@ const _widthStyle = (
   card?: boolean,
   scrollDown?: boolean,
   CTA?: boolean,
-  Signup?: boolean
+  Signup?: boolean,
+  Cart?: boolean
 ) => {
   if (scrollDown) return "200px";
   if (CTA) return "300px";
-  if (Signup) return "100%";
+  if (Signup || Cart) return "100%";
   else return "unset";
 };
 
@@ -100,18 +106,17 @@ const _opacityStyle = (card?: boolean, Signup?: boolean) => {
 const ButtonComponent = styled.button<StyledProps>`
   background-color: ${({ bgColor }) => (bgColor ? bgColor : "transparent")};
   color: ${({ color }) => color};
-  border: ${({ border }) =>
-    border ? `1px solid ${border}` : colors.transparent};
+  border: 0px;
   padding: ${({ card, scrollDown, CTA, Signup }) =>
     _paddingStyle(card, scrollDown, CTA, Signup)};
-  margin: ${({ card, scrollDown, CTA, Signup }) =>
-    _marginStyle(card, scrollDown, CTA, Signup)};
+  margin: ${({ card, scrollDown, CTA, Signup, Cart }) =>
+    _marginStyle(card, scrollDown, CTA, Signup, Cart)};
   border-radius: ${({ card, scrollDown, CTA }) =>
     _borderRadiusStyle(card, scrollDown, CTA)};
-  width: ${({ card, scrollDown, CTA, Signup }) =>
-    _widthStyle(card, scrollDown, CTA, Signup)};
+  width: ${({ card, scrollDown, CTA, Signup, Cart }) =>
+    _widthStyle(card, scrollDown, CTA, Signup, Cart)};
   min-width: ${({ CTA }) => (CTA ? "200px" : "unset")};
-  font-size: ${({ CTA }) => (CTA ? "large" : "unset")};
+  font-size: ${({ CTA, Cart }) => (CTA || Cart ? "large" : "unset")};
   font-weight: ${({ CTA }) => (CTA ? "bold" : "unset")};
   font-family: inherit;
   cursor: pointer;
@@ -127,8 +132,7 @@ const ButtonComponent = styled.button<StyledProps>`
   }
 
   &:hover {
-    border: ${({ border }) =>
-      border ? `1px solid ${border}` : colors.transparent};
+    border: 0px;
     background-color: ${({ card, CTA }) =>
       card || CTA ? colors.yellow : null};
     opacity: ${({ card, Signup }) => _opacityStyle(card, Signup)};

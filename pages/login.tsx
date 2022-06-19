@@ -1,22 +1,57 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { loginImg } from "../assets/svg";
 import Button from "../component/Button";
 import Container from "../component/Container";
 import Logo from "../component/Logo";
+import { setLogin } from "../redux/action";
+import { RootState } from "../redux/store";
 import colors from "../styles/colors";
 
 const Login = () => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const data = useSelector((state: RootState) => state.user.email);
+  const router = useRouter();
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log(email, password);
+  interface lStorage {
+    type: string;
+    value: {
+      first_name: string;
+      last_name: string;
+      email: string;
+    };
+  }
+
+  const onSubmit = () => {
+    dispatch(
+      setLogin({ first_name: "Dhika", last_name: "Adhiwijna", email: email })
+    );
+    localStorage.setItem(
+      "user",
+      JSON.stringify({
+        first_name: "Dhika",
+        last_name: "Adhiwijna",
+        email: email,
+      })
+    );
+    setEmail("");
+    setPassword("");
+    router.push("/");
   };
+
+  useEffect(() => {
+    if (data) {
+      console.log("data", data);
+      router.push("/");
+    }
+  }, []);
+
   return (
     <BgContainer>
       <ContainerWrapper>
@@ -29,6 +64,7 @@ const Login = () => {
             <input
               placeholder="Email"
               type="email"
+              value={email}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setEmail(e.target.value)
               }
@@ -36,12 +72,18 @@ const Login = () => {
             <input
               placeholder="Password"
               type="password"
+              value={password}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setPassword(e.target.value)
               }
             />
           </div>
-          <Button bgColor={colors.lightGreen} color={colors.white} Signup>
+          <Button
+            bgColor={colors.lightGreen}
+            color={colors.white}
+            Signup
+            onClick={() => onSubmit()}
+          >
             Sign In
           </Button>
 

@@ -10,55 +10,109 @@ interface CardProps {
   name: string;
   image: StaticImageData;
   id: number;
-  // onClickBuy?: () => void;
-  // onClickEnsli?: () => void;
+  screen: "home" | "shop";
 }
 
-const Card = ({ name, image, id }: CardProps) => {
+const Card: React.FC<CardProps> = ({ name, image, id, screen }) => {
   const router = useRouter();
 
-  const onClickEnsiklopedia = () => {
-    router.push(`./ensiklopedia/${id + 1}/${name}`);
+  const _firstName = (value: string) => {
+    return value.split(" ")[0];
   };
 
-  return (
-    <CardContainer>
-      <Image
-        src={image}
-        alt="image"
-        width={160}
-        height={120}
-        objectFit="fill"
-        layout="fixed"
-      />
-      <div>
-        <h4>{name}</h4>
-        <ButtonContainer>
-          <Button
-            bgColor={colors.green}
-            border={colors.transparent}
-            color={colors.white}
-            card
-            // onClick={onClickBuy}
-          >
-            Beli
-          </Button>
-          <Button
-            bgColor={colors.lightGreen}
-            border={colors.transparent}
-            color={colors.white}
-            card
-            onClick={onClickEnsiklopedia}
-          >
-            Ensiklopedia
-          </Button>
-        </ButtonContainer>
-      </div>
-    </CardContainer>
-  );
+  const onClickEnsiklopedia = () => {
+    router.push(`../ensiklopedia/${id}/${name}`);
+  };
+
+  const onClickBuy = () => {
+    router.push(`../store/${id}`);
+  };
+
+  switch (screen) {
+    case "home":
+      return (
+        <CardContainer>
+          <Image
+            src={image}
+            alt="image"
+            width={160}
+            height={120}
+            objectFit="fill"
+            layout="fixed"
+          />
+          <div>
+            <h4>{name}</h4>
+            <div>
+              <Button
+                bgColor={colors.green}
+                border={colors.transparent}
+                color={colors.white}
+                card
+                onClick={onClickBuy}
+              >
+                <H5>Beli</H5>
+              </Button>
+              <Button
+                bgColor={colors.lightGreen}
+                border={colors.transparent}
+                color={colors.white}
+                card
+                onClick={onClickEnsiklopedia}
+              >
+                <H5>Ensiklopedia</H5>
+              </Button>
+            </div>
+          </div>
+        </CardContainer>
+      );
+    case "shop":
+      return (
+        <ShopContainer>
+          <Image
+            src={image}
+            alt="image"
+            width={120}
+            height={120}
+            objectFit="cover"
+            layout="fixed"
+          />
+          <div>
+            <h4>{_firstName(name)}</h4>
+            <div>
+              <Button
+                bgColor={colors.green}
+                border={colors.transparent}
+                color={colors.white}
+                card
+                onClick={onClickBuy}
+              >
+                <H5>Beli</H5>
+              </Button>
+              <Button
+                bgColor={colors.lightGreenTransparent}
+                border={colors.transparent}
+                color={colors.white}
+                card
+                onClick={onClickEnsiklopedia}
+              >
+                <H5>Ensiklopedia</H5>
+              </Button>
+            </div>
+          </div>
+        </ShopContainer>
+      );
+
+    default:
+      return null;
+  }
 };
 
 export default Card;
+
+const H5 = styled.h5`
+  color: ${colors.white};
+  padding: 2px 0;
+`;
 
 const CardContainer = styled.div`
   width: 160px;
@@ -71,26 +125,55 @@ const CardContainer = styled.div`
     position: relative;
     padding: 5px;
     top: 0%;
-    transform: translateY(-50%);
     left: 0;
     right: 0;
+    transform: translateY(-50%);
     transition: all 0.3s ease;
 
     & > h4 {
       color: ${colors.white};
       margin-bottom: 5px;
     }
+
+    & > div {
+      display: flex;
+      justify-content: space-between;
+    }
   }
 
   &:hover {
-    /* transform: scale(1.2); */
     & > div {
       top: -30%;
     }
   }
 `;
 
-const ButtonContainer = styled.div`
+const ShopContainer = styled.div`
+  width: 260px;
+  height: auto;
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
+  margin: 10px 0;
+  background-color: ${colors.lightGreenTransparent};
+
+  & > div {
+    margin: 0 10px;
+
+    & > h4 {
+      margin: 5px 0 10px 0;
+      color: ${colors.white};
+    }
+
+    & > div {
+      height: 63px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 140px;
+      min-width: 100px;
+    }
+  }
 `;

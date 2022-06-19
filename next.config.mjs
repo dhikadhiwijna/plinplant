@@ -1,20 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-
-  // webpack(config) {
-  //   config.module.rules.push({
-  //     test: /\.svg$/,
-  //     use: ["@svgr/webpack"],
-  //   });
-
-  //   return config;
-  // },
-};
-
-export const experimental = {
-  // Enables the styled-components SWC transform
-  styledComponents: true,
+  compiler: {
+    // ssr and displayName are configured by default
+    styledComponents: true,
+  },
 };
 
 export default nextConfig;
